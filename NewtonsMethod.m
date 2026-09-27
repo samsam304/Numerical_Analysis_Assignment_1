@@ -34,8 +34,8 @@ function [root, iter] = newtonMethod(f, df, p0, tol, n)
 
 iter = 0;
 
-% fprintf('Iter    p0          p           f(p0)       |p - p0|\n');
-% fprintf('------------------------------------------------------------\n');
+fprintf('Iter    p0          p           f(p0)       |p - p0|\n');
+fprintf('------------------------------------------------------------\n');
 
 vals = ones(1,n);
 
@@ -57,8 +57,8 @@ while iter < n
     % Store approximations
     vals(iter) = p;
 
-    % fprintf('%4d  %10.6f  %10.6f  %12.6e  %12.6e\n', ...
-    %     iter, p0, p, fp0, abs(p - p0));
+    fprintf('%4d  %10.6f  %10.6f  %12.6e  %12.6e\n', ...
+        iter, p0, p, fp0, abs(p - p0));
 
     % Check convergence
     if abs(p - p0) < tol
@@ -88,8 +88,8 @@ function [root, iter] = modifiedNewtonMethod(f, df, ddf, p0, tol, n)
 
 iter = 0;
 
-% fprintf('Iter    p0          p           f(p0)       |p - p0|\n');
-% fprintf('------------------------------------------------------------\n');
+fprintf('Iter    p0          p           f(p0)       |p - p0|\n');
+fprintf('------------------------------------------------------------\n');
 
 vals = zeros(1, n);
 
@@ -116,8 +116,8 @@ while iter < n
     % Store approximations
     vals(iter) = p;
     
-    % fprintf('%4d  %10.6f  %10.6f  %12.6e  %12.6e\n', ...
-    %     iter, p0, p, fp0, abs(p - p0));
+    fprintf('%4d  %10.6f  %10.6f  %12.6e  %12.6e\n', ...
+        iter, p0, p, fp0, abs(p - p0));
     
     % Check convergence
     if abs(p - p0) < tol
@@ -133,7 +133,7 @@ while iter < n
         end
     
         return
-end
+    end
 
 % Update approximation
 p0 = p;

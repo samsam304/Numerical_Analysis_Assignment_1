@@ -7,11 +7,10 @@ i.e. the eq must be manipulated to isolate a dependent variable
 %}
 
 %% Inputs
-l = 3.1;
-f = @(x) l*x*(1-x);    % Fixed-point function
-p0 = 0.6;               % Initial approximation
-tol = 1e-2;             % Tolerance for convergence
-n = 500;                % Maximum iterations
+f = @(x) x.*(1-x);       % Fixed-point function
+p0 = 0.5;               % Initial approximation
+tol = 1e-6;             % Tolerance for convergence
+n = 100;                % Maximum iterations
 
 [root, iter] = fixedPointIteration(f, p0, tol, n);
 
@@ -19,7 +18,7 @@ if root ~= Inf
     fprintf('\nThe approximate fixed point is: %.5f\n', root);
     fprintf('Number of iterations: %d\n', iter);
 
-    cobwebPlot(f, p0, tol, n, [0.3 1]);
+    cobwebPlot(f, p0, tol, n, [-1 1]);
 end
 
 %% Fixed-Point Iteration Method
@@ -104,4 +103,5 @@ xlim(xRange)
 ylim(xRange)
 
 hold off
+
 end
