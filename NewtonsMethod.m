@@ -10,22 +10,22 @@ f = matlabFunction(f_sym);
 df = matlabFunction(df_sym);
 ddf = matlabFunction(ddf_sym);
 
-tol = 1e-4;     % Tolerance for convergence
-n = 10000;      % Maximum iterations
+tol = 1e-6;     % Tolerance for convergence
+n = 100;        % Maximum iterations
 
 p0 = 1;
 
 % Standard Newton's Method
+fprintf('\nNewton''s Method:\n');
 [root, iter] = newtonMethod(f, df, p0, tol, n);
 
-fprintf('\nNewton''s Method:\n');
 fprintf('The root found is: %.10f\n', root);
 fprintf('Number of iterations: %d\n', iter);
 
 % Modified Newton's Method
+fprintf('\nModified Newton''s Method:\n');
 [root_mod, iter_mod] = modifiedNewtonMethod(f, df, ddf, p0, tol, n);
 
-fprintf('\nModified Newton''s Method:\n');
 fprintf('The root found is: %.10f\n', root_mod);
 fprintf('Number of iterations: %d\n', iter_mod);
 
@@ -37,7 +37,7 @@ iter = 0;
 % fprintf('Iter    p0          p           f(p0)       |p - p0|\n');
 % fprintf('------------------------------------------------------------\n');
 
-vals = ones(1,4);
+vals = ones(1,n);
 
 while iter < n
 
@@ -54,7 +54,7 @@ while iter < n
     % Compute next approximation
     p = p0 - fp0 / dfp0;
 
-    % Order of convergence
+    % Store approximations
     vals(iter) = p;
 
     % fprintf('%4d  %10.6f  %10.6f  %12.6e  %12.6e\n', ...
@@ -96,47 +96,47 @@ vals = zeros(1, n);
 while iter < n
 
     iter = iter + 1;
-
+    
     fp0 = f(p0);
     dfp0 = df(p0);
     ddfp0 = ddf(p0);
-
+    
     % Denominator from modified Newton's formula
     denom = dfp0^2 - fp0 * ddfp0;
-
+    
     % Check that denominator is not zero
     if denom == 0
         error(['Denominator is zero at p0 = %.6f. ' ...
             'Modified Newton''s method fails.'], p0);
     end
-
+    
     % Compute next approximation
     p = p0 - (fp0 * dfp0) / denom;
-
+    
     % Store approximations
     vals(iter) = p;
-
+    
     % fprintf('%4d  %10.6f  %10.6f  %12.6e  %12.6e\n', ...
     %     iter, p0, p, fp0, abs(p - p0));
-
+    
     % Check convergence
     if abs(p - p0) < tol
         root = p;
         fprintf('\nModified Newton''s method converged successfully.\n');
-
+    
         % Order of convergence
         if iter >= 3
             alpha = log(abs(vals(iter) - vals(iter-1))) / ...
                 log(abs(vals(iter-1) - vals(iter-2)));
-
+    
             fprintf('Order of Convergence: %.10f\n', alpha);
         end
-
+    
         return
-    end
+end
 
-    % Update approximation
-    p0 = p;
+% Update approximation
+p0 = p;
 
 end
 
